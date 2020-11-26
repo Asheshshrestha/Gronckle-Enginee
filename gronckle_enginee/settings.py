@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -38,6 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #admin side apps
+    'apps.accounts',
+    'apps.admin_panel',
+    'apps.user_groups',
+    #user side apps
+    'modules.front_demo',
+
+    #third party apps
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -55,10 +65,11 @@ ROOT_URLCONF = 'gronckle_enginee.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'apps.admin_panel.processors.web_credential',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -70,7 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gronckle_enginee.wsgi.application'
 
-
+#AUTH_USER_MODEL = 'users.User'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -119,3 +130,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    
+]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+USER_LOGIN_REDIRECT_URL = '/demo/home/'
+STAFF_LOGIN_REDIRECT_URL = '/c-admin/home/'
+
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST_USER = os.getenv("EMAIL")
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT= 587
+EMAIL_USE_TLS=True
+EMAIL_HOST_PASSWORD= os.getenv("PASSWORD")
+
+SITE_ID = 1
+
+
+
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
