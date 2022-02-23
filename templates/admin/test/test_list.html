@@ -42,15 +42,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for group in object_list %}
+                        {% for test in object_list %}
                             <tr class="odd gradeX">
-                                <td>{{ group.name|capfirst }}</td>
+                                <td>{{ test.name|capfirst }}</td>
                                 <td>
-                                {% if group.name|capfirst != 'Master'%}
-                                <a href="{% url 'update_group' pk=group.id %}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Edit</a>
-								<a href="{% url 'delete_group' pk=group.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i> Delete</a>
-                                {% endif %}
-                                
+                                <a href="" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Edit</a>
+								<a href="" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i> Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

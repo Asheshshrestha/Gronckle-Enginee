@@ -64,8 +64,14 @@
                                 {% endfor %}
                                 </td>
                                 <td>
+                                
+                                {% if request.user.get_username != user.username %}
                                 <a href="{% url 'update_user' pk=user.id %}" class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i> Edit</a>
-								<a href="{% url 'delete_user_confirm' pk=user.id %}" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i> Delete</a>
+                                <a href="{% url 'user_reset_password' pk=user.id %}" class="btn btn-primary btn-sm"><i class="fas fa-user-edit"></i> Reset</a>
+                                <a href="{% url 'delete_user_confirm' pk=user.id %}" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i> Delete</a>
+                                {% endif %}
+                                
+								
                                 </td>
                             </tr>
                         {% endfor %}

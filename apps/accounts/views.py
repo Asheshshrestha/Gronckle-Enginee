@@ -1,3 +1,4 @@
+from cgitb import reset
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,7 +13,7 @@ from django.views.generic import View
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from apps.accounts.forms import SignupForm,UserUpadteForm
+from apps.accounts.forms import SignupForm,UserUpadteForm,ResetPasswordForm
 
 class GLoginView(View):
     template_name = 'admin/accounts/login.html'
@@ -37,6 +38,58 @@ class GLoginView(View):
         else:
             return render(request,self.template_name,{'form':form})
 
+class GPasswordResetView(View):
+    template_name = 'admin/c-panel/pages/user_management/users/user_reset_password.html'
+    def get(self,request,*args,**kwargs):
+        form = ResetPasswordForm()
+        return render(request,self.template_name,{'form':form,'nav_link':'users'})
+    def post(self, request,pk):
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            password1 =  form.cleaned_data.get('password')
+            password2 =  form.cleaned_data.get('confirm_password')
+            if password1 == password2:
+                user = User.objects.get(id=pk)
+                user.set_password(password1)
+                user.save()
+                messages.success(request,'Successfully reset password')
+                return redirect('user_list')
+            else:
+                form = ResetPasswordForm()
+                messages.warning(request,'Password and Confirm Password must be same')
+                return render(request,self.template_name,{'form':form,'nav_link':'users'})
+            
+        else:
+            form = ResetPasswordForm()
+            messages.warning(request,'Sorry can\'t change password please try again later')
+            return render(request,self.template_name,{'form':form,'nav_link':'users'})
+            
+class GChangePasswordView(View):
+    template_name = 'admin/c-panel/pages/user_management/users/change_password.html'
+    def get(self,request,*args,**kwargs):
+        form = ResetPasswordForm()
+        return render(request,self.template_name,{'form':form,'nav_link':'users'})
+    def post(self, request):
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            password1 =  form.cleaned_data.get('password')
+            password2 =  form.cleaned_data.get('confirm_password')
+            if password1 == password2:
+                user = User.objects.get(id=request.user.id)
+                user.set_password(password1)
+                user.save()
+                messages.success(request,'Successfully change password')
+                return redirect('index')
+            else:
+                form = ResetPasswordForm()
+                messages.warning(request,'Password and Confirm Password must be same')
+                return render(request,self.template_name,{'form':form,'nav_link':'users'})
+            
+        else:
+            form = ResetPasswordForm()
+            messages.warning(request,'Sorry can\'t change password please try again later')
+            return render(request,self.template_name,{'form':form,'nav_link':'users'})
+            
 
 class GLogoutView(View):
     def get(self, request):

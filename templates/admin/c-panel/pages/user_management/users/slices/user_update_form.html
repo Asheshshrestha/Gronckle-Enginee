@@ -17,9 +17,6 @@
                         <div class="col-md-4">
                             {{ form.email|as_crispy_field }}
                         </div>
-                        <div class="col-md-4">
-                            {{ form.password|as_crispy_field }}
-                        </div>
                    </div>
                    
                    <div class="row">
@@ -46,6 +43,7 @@
                    </div>
                    
                    <button type="submit" class="btn btn-success">Update</button>
+                   <a href="{% url 'user_list' %}" class="btn btn-danger">Cancel</a>
                 </form>
             </div>
             <div class="panel-footer">

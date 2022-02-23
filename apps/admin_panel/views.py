@@ -5,10 +5,10 @@ from django.views.generic import TemplateView,UpdateView,DetailView
 from apps.admin_panel.models import WebsiteSettingModel
 from apps.admin_panel.forms import WebsiteSettingForm
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-# Create your views here.
 
-class GIndex(TemplateView):
+class GIndex(LoginRequiredMixin,TemplateView):
 
     template_name = 'admin/c-panel/pages/index/index.html'
     

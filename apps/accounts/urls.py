@@ -6,7 +6,7 @@ from apps.accounts.views import (GLoginView,
                                    GUserListView,
                                    SignUpViewAdmin,
                                    GUpdateUserAdmin,
-                                   GDeleteUserConfirmAdmin)
+                                   GDeleteUserConfirmAdmin,GPasswordResetView,GChangePasswordView)
 
 
 urlpatterns = [
@@ -14,6 +14,8 @@ urlpatterns = [
        path('logout/',GLogoutView.as_view(),name='logout'),
        path('list/',GUserListView.as_view(),name='user_list'),
        path('register/',SignUpViewAdmin.as_view(),name='user_register'),
+       path('<int:pk>/resetpassword/',GPasswordResetView.as_view(),name='user_reset_password'),
+       path('/changepassword/',GChangePasswordView.as_view(),name='change_password'),
        path('<int:pk>/update/',GUpdateUserAdmin.as_view(),name='update_user'),
        path('<int:pk>/delete/',GDeleteUserConfirmAdmin.as_view(),name='delete_user_confirm'),
 

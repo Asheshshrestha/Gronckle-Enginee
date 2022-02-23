@@ -10,6 +10,15 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(max_length=32,widget=forms.PasswordInput)
 
+
+class ResetPasswordForm(forms.Form):
+    def validate(self,password, confirm_password):
+        if password != confirm_password:
+                raise forms.ValidationError("Both password must be same")
+
+    password = forms.CharField(max_length=32,widget=forms.PasswordInput)
+    confirm_password = forms.CharField(max_length=32,widget=forms.PasswordInput)
+    
 class EmailValidation(forms.EmailField):
     def validate(self, value):
         try:
@@ -55,7 +64,6 @@ class UserUpadteForm(forms.ModelForm):
         widget = FilteredSelectMultiple('Groups',is_stacked=False),
         required=False
     )
-    password = forms.CharField()
 
     class Media:
         css = {'all': ('/static/admin/css/widgets.css',), }
@@ -64,7 +72,6 @@ class UserUpadteForm(forms.ModelForm):
 
         model = User
         fields = ('username',
-                    'password',
                     'groups',
                     'is_superuser',
                     'first_name',
